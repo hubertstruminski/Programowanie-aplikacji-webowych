@@ -7,17 +7,22 @@
         <title>Statystyki</title>
     </head>
     <body>
-        <div class="inputs-container">
-            <input type="text" class="input-elements" />
-            <input type="text" class="input-elements" />
-            <input type="text" class="input-elements" />
-            <input type="text" class="input-elements" />
+        <div>
+            <label>Enter input number to generate: </label>
+            <input type="number" id="numberInput" min="1" max="1000" />
         </div>
-        <div class="statistics-container">
-            <input type="text" disabled id="sum" />
-            <input type="text" disabled id="avg" />
-            <input type="text" disabled id="min" />
-            <input type="text" disabled id="max" />
+        <div id="inputs-container">
+            
+        </div>
+        <button id="remove-button" style="background-color: brown; color: white">Remove checked input(s)</button>
+        <div id="statistics-container">
+            <input type="text" disabled class="statistic-elements" />
+            <input type="text" disabled class="statistic-elements" />
+            <input type="text" disabled class="statistic-elements" />
+            <input type="text" disabled class="statistic-elements" />
+        </div>
+        <div id="loading-container">
+            <img id='loading' width="75px" src="http://rpg.drivethrustuff.com/shared_images/ajax-loader.gif" /> 
         </div>
         <script src="index.js"></script>
     </body>
