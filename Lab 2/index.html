@@ -30,54 +30,67 @@
             .paddingElements {
                 padding: 20px;
             }
+            .mainDiv {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
         </style>
     </head>
-    <body>
+    <body class="bg-secondary bg-gradient">
         <audio src="sounds\clap.wav" data-sound="clap" data-key="s"></audio>
         <audio src="sounds\kick.wav" data-sound="kick"></audio>
         
-        <button class="btn btn-warning marginElements" id="channel1Play">Play channel 1</button>
+        <div class="mainDiv">
+            <button style="padding: 15px; width: 100%;" class="btn btn-warning marginElements" id="channel1Play">Play keys channel</button>
         
-        <div class="divElement">
-            <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
-            <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
-            <audio controls class="audioElement marginElements"></audio>
-            <div class="spinner-border text-success spinners" role="status">
-                <span class="visually-hidden">Loading...</span>
+            <div class="divElement">
+                <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
+                <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
+                <audio controls class="audioElement marginElements"></audio>
+                <div class="spinner-border text-success spinners marginElements" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <input type="checkbox" class="checkboxes marginElements" />
             </div>
-        </div>
-        <br />
+            <br />
 
-        <div class="divElement">
-            <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
-            <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
-            <audio controls class="audioElement marginElements"></audio>
-            <div class="spinner-border text-success spinners" role="status">
-                <span class="visually-hidden">Loading...</span>
+            <div class="divElement">
+                <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
+                <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
+                <audio controls class="audioElement marginElements"></audio>
+                <div class="spinner-border text-success spinners marginElements" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <input type="checkbox" class="checkboxes marginElements" />
             </div>
-        </div>
-        <br />
+            <br />
 
-        <div class="divElement">
-            <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
-            <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
-            <audio controls class="audioElement marginElements"></audio>
-            <div class="spinner-border text-success spinners" role="status">
-                <span class="visually-hidden">Loading...</span>
+            <div class="divElement">
+                <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
+                <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
+                <audio controls class="audioElement marginElements"></audio>
+                <div class="spinner-border text-success spinners marginElements" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <input type="checkbox" class="checkboxes marginElements" />
             </div>
-        </div>
-        <br />
+            <br />
 
-        <div class="divElement">
-            <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
-            <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
-            <audio controls class="audioElement marginElements"></audio>
-            <div class="spinner-border text-success spinners" role="status">
-                <span class="visually-hidden">Loading...</span>
+            <div class="divElement">
+                <button class="btnStart btn btn-success marginElements paddingElements">Start</button>
+                <button class="btnStop btn btn-danger marginElements paddingElements">Stop</button>
+                <audio controls class="audioElement marginElements"></audio>
+                <div class="spinner-border text-success spinners marginElements" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <input type="checkbox" class="checkboxes marginElements" />
             </div>
+            <br />
+            <button style="padding: 15px; width: 100%;" id="channelsButton" class="btn btn-info">Play all channels</button>
         </div>
-        <br />
         
+
         <script src="index.js"></script>
     </body>
 </html>

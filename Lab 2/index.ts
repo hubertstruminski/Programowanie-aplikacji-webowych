@@ -62,12 +62,18 @@ interface SpinnerElement {
     index: number;
 }
 
+interface CheckboxElement {
+    checkbox: HTMLInputElement;
+    index: number;
+}
+
 class RecordingListener {
     startRecordingButtons: UIElement[] = [];
     stopRecordingButtons: UIElement[] = [];
     spinners: SpinnerElement[] = [];
+    checkboxes: CheckboxElement[] = [];
     audioPlayers: AudioElement[] = [];
-    activeChannel: MediaRecorder;
+    playChannelsButton: HTMLButtonElement;
     
     constructor() {
         this.init();
@@ -76,6 +82,7 @@ class RecordingListener {
     init(): void {
         this.getRecordingElements();
         this.addStartEventListeners();
+        this.addPlayChannelsListener();
     }
     
     getRecordingElements(): void {
@@ -83,6 +90,8 @@ class RecordingListener {
         this.processButtons(document.querySelectorAll('.btnStop'), this.stopRecordingButtons);
         this.processAudioPlayers(document.querySelectorAll('.audioElement'), this.audioPlayers);
         this.processSpinners(document.querySelectorAll('.spinners'), this.spinners);
+        this.processCheckboxes(document.querySelectorAll('.checkboxes'), this.checkboxes);
+        this.playChannelsButton = document.querySelector('#channelsButton');
     }
 
     processButtons(buttons: NodeListOf<HTMLButtonElement>, targetButtons: UIElement[]): void {
@@ -107,10 +116,33 @@ class RecordingListener {
         });
     }
 
+    processCheckboxes(checkboxes: NodeListOf<HTMLInputElement>, targetCheckboxes: CheckboxElement[]) {
+        checkboxes.forEach((checkbox, index) => {
+            const newObject: CheckboxElement = { checkbox, index };
+            targetCheckboxes.push(newObject);
+        });
+    }
+
     addStartEventListeners(): void {
         this.startRecordingButtons.forEach(element => {
             const { button, index } = element;
             button.addEventListener('click', (e) => this.getUserMedia(e, index));
+        });
+    }
+
+    addPlayChannelsListener(): void {
+        this.playChannelsButton.addEventListener('click', () => {
+            const result: HTMLAudioElement[] = [];
+            this.checkboxes.forEach(element => {
+                const { checkbox, index } = element;
+                if(checkbox.checked) {
+                    this.audioPlayers.forEach(audioPlayer => {
+                        if(index === audioPlayer.index) {
+                            this.audioPlayers[index].player.play();
+                        }
+                    });
+                }
+            });
         });
     }
      
@@ -122,7 +154,6 @@ class RecordingListener {
     
         navigator.mediaDevices.getUserMedia(constraints)
         .then((mediaStreamObject) => {
-            // const audioSave = document.querySelector('#aud2') as HTMLAudioElement;
             const mediaRecoder = new MediaRecorder(mediaStreamObject);
             let chunks = [];
     
