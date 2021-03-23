@@ -1,96 +1,159 @@
-let clapSound: HTMLAudioElement;
-let kickSound: HTMLAudioElement;
+class KeyboardSoundListener {
+    clapSound: HTMLAudioElement;
+    kickSound: HTMLAudioElement;
+    btnChannel1Play: HTMLButtonElement;
+    channel1: any[] = [];
 
-let startRecording: HTMLAudioElement;
-let stopRecording: HTMLAudioElement;
-
-appStart();
-
-const channel1: any[] = [];
-let mainMediaRecorder = null;
-
-function appStart(): void {
-    document.addEventListener('keypress', onKeyDown);
-    const btnChannel1Play = document.querySelector('#channel1Play');
-    btnChannel1Play.addEventListener('click', onChannel1Play);
-    getAudioElements();
-    getRecordingElements();
-    getUserMedia();
-}
-
-function onChannel1Play(): void {
-    channel1.forEach(sound => {
-        setTimeout(() => playSound(sound.key), sound.time);
-    });
-}
-
-function getAudioElements(): void {
-    clapSound = document.querySelector('[data-sound="clap"]');
-    kickSound = document.querySelector('[data-sound="kick"]');
-}
-
-function getRecordingElements(): void {
-    startRecording = document.querySelector('#btnStart');
-    stopRecording = document.querySelector('#btnStop');
-}
-
-function getUserMedia(): void {
-    const constraints = {
-        audio: true,
-        video: false
+    constructor() {
+        this.channel1 = [];
+        this.getAudioElements();
+        this.addEventListeners();
     }
 
-    navigator.mediaDevices.getUserMedia(constraints)
-    .then(function(mediaStreamObject) {
-        // let audio = document.querySelector('#recordAudio') as HTMLAudioElement;
-        // audio.srcObject = mediaStreamObject;
-        
-        const audioSave = document.querySelector('#aud2') as HTMLAudioElement;
-        const mediaRecoder = new MediaRecorder(mediaStreamObject);
-        let chunks = [];
+    getAudioElements(): void {
+        this.clapSound = document.querySelector('[data-sound="clap"]');
+        this.kickSound = document.querySelector('[data-sound="kick"]');
+        this.btnChannel1Play = document.querySelector('#channel1Play');
+    }
 
-        startRecording.addEventListener('click', (event): void => {
+    addEventListeners(): void {
+        document.addEventListener('keypress', (e) => this.onKeyDown(e));
+        this.btnChannel1Play.addEventListener('click', (e) => this.onChannel1Play(e));
+    }
+
+    onChannel1Play(): void {
+        this.channel1.forEach(sound => {
+            setTimeout(() => this.playSound(sound.key), sound.time);
+        });
+    }
+
+    onKeyDown(e: KeyboardEvent): void {
+        this.channel1.push({ key: e.key, time: e.timeStamp });
+        this.playSound(e.key);
+    }
+    
+    playSound(key: string): void {
+        switch(key) {
+            case 'a':
+                this.clapSound.currentTime = 0;
+                this.clapSound.play();
+                break;
+            case 's':
+                this.kickSound.currentTime = 0;
+                this.kickSound.play();
+                break;
+        }
+    }
+}
+
+interface UIElement {
+    button: HTMLButtonElement;
+    index: number;
+}
+
+interface AudioElement {
+    player: HTMLAudioElement;
+    mediaRecorder: MediaRecorder;
+    index: number;
+}
+
+interface SpinnerElement {
+    spinner: HTMLDivElement;
+    index: number;
+}
+
+class RecordingListener {
+    startRecordingButtons: UIElement[] = [];
+    stopRecordingButtons: UIElement[] = [];
+    spinners: SpinnerElement[] = [];
+    audioPlayers: AudioElement[] = [];
+    activeChannel: MediaRecorder;
+    
+    constructor() {
+        this.init();
+    }
+
+    init(): void {
+        this.getRecordingElements();
+        this.addStartEventListeners();
+    }
+    
+    getRecordingElements(): void {
+        this.processButtons(document.querySelectorAll('.btnStart'), this.startRecordingButtons);
+        this.processButtons(document.querySelectorAll('.btnStop'), this.stopRecordingButtons);
+        this.processAudioPlayers(document.querySelectorAll('.audioElement'), this.audioPlayers);
+        this.processSpinners(document.querySelectorAll('.spinners'), this.spinners);
+    }
+
+    processButtons(buttons: NodeListOf<HTMLButtonElement>, targetButtons: UIElement[]): void {
+        buttons.forEach((button, index) => {
+            const newObject: UIElement = { index, button };
+            targetButtons.push(newObject);
+        });
+    }
+
+    processAudioPlayers(players: NodeListOf<HTMLAudioElement>, targetPlayers: AudioElement[]): void {
+        players.forEach((player, index) => {
+            const newObject: AudioElement = { player, mediaRecorder: null, index };
+            targetPlayers.push(newObject);
+        });
+    }
+
+    processSpinners(spinners: NodeListOf<HTMLDivElement>, targetSpinners: SpinnerElement[]): void {
+        spinners.forEach((spinner, index) => {
+            const newObject: SpinnerElement = { spinner, index };
+            spinner.style.display = "none";
+            targetSpinners.push(newObject);
+        });
+    }
+
+    addStartEventListeners(): void {
+        this.startRecordingButtons.forEach(element => {
+            const { button, index } = element;
+            button.addEventListener('click', (e) => this.getUserMedia(e, index));
+        });
+    }
+     
+    getUserMedia(e: Event, index: number): void {
+        const constraints = {
+            audio: true,
+            video: false
+        }
+    
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then((mediaStreamObject) => {
+            // const audioSave = document.querySelector('#aud2') as HTMLAudioElement;
+            const mediaRecoder = new MediaRecorder(mediaStreamObject);
+            let chunks = [];
+    
             mediaRecoder.start();
+            this.spinners[index].spinner.style.display = "block";
             console.log(mediaRecoder.state);
-        });
+    
+            this.stopRecordingButtons[index].button.addEventListener('click', (): void => {
+                mediaRecoder.stop();
+                this.spinners[index].spinner.style.display = "none";
+                console.log(mediaRecoder.state);
+            });
 
-        stopRecording.addEventListener('click', (event): void => {
-            mediaRecoder.stop();
-            console.log(mediaRecoder.state);
-        });
+            this.audioPlayers[index].mediaRecorder = mediaRecoder;
+    
+            mediaRecoder.ondataavailable = function(event): void {
+                chunks.push(event.data);
+            }
 
-        mediaRecoder.ondataavailable = function(event): void {
-            chunks.push(event.data);
-        }
-        mediaRecoder.onstop = (event): void => {
-            let blob = new Blob(chunks, { 'type': 'audio/mp4;' });
-            chunks = [];
-            let videoURL = window.URL.createObjectURL(blob);
-            audioSave.src = videoURL;
-        }
-    }).catch(function(error) {
-        console.log(error.name, error.message);
-    })
-}
-
-function onKeyDown(e: KeyboardEvent): void {
-    const key = e.key;
-    const time = e.timeStamp;
-
-    channel1.push({ key, time });
-    playSound(key);
-    console.log(channel1);
-}
-
-function playSound(key: string): void {
-    switch(key) {
-        case 'a':
-            clapSound.currentTime = 0;
-            clapSound.play();
-            break;
-        case 's':
-            kickSound.currentTime = 0;
-            kickSound.play();
-            break;
+            mediaRecoder.onstop = (): void => {
+                let blob = new Blob(chunks, { 'type': 'audio/mp4;' });
+                chunks = [];
+                let videoURL = window.URL.createObjectURL(blob);
+                this.audioPlayers[index].player.src = videoURL;
+            }
+        }).catch(function(error) {
+            console.log(error.name, error.message);
+        })
     }
 }
+
+const keyListener = new KeyboardSoundListener();
+const recordingListener = new RecordingListener();
+
