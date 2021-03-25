@@ -34,15 +34,40 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                align-items: center;
+            }
+            .key-buttons {
+                margin-left: 1px;
+                margin-right: 1px;
+                height: 75px;
+                flex: 1
+            }
+            .key-buttons-container {
+                flex-direction: row; 
+                width: 100%; 
+                display: flex; 
+                justify-content: space-between;
+                align-items: center;
             }
         </style>
     </head>
     <body class="bg-secondary bg-gradient">
         <audio src="sounds\clap.wav" data-sound="clap" data-key="s"></audio>
         <audio src="sounds\kick.wav" data-sound="kick"></audio>
+        <audio src="sounds\ride.wav" data-sound="ride"></audio>
+        <audio src="sounds\snare.wav" data-sound="snare"></audio>
+        <audio src="sounds\tink.wav" data-sound="tink"></audio>
         
         <div class="mainDiv">
-            <button style="padding: 15px; width: 100%;" class="btn btn-warning marginElements" id="channel1Play">Play keys channel</button>
+            <div class="key-buttons-container">
+                <button id="btnClap" class="key-buttons btn btn-primary">A</button>
+                <button id="btnKick" class="key-buttons btn btn-primary">S</button>
+                <button id="btnRide" class="key-buttons btn btn-primary">Q</button>
+                <button id="btnSnare" class="key-buttons btn btn-primary">W</button>
+                <button id="btnTink" class="key-buttons btn btn-primary">E</button>
+            </div>
+
+            <button style="width: 100%; padding-bottom: 10px; padding-top: 10px;" class="btn btn-warning marginElements" id="channel1Play">Play keys channel</button>
         
             <div class="divElement">
                 <button class="btnStart btn btn-success marginElements paddingElements">Start</button>

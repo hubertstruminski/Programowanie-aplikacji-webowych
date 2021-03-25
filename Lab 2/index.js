@@ -5,15 +5,36 @@ var KeyboardSoundListener = /** @class */ (function () {
         this.getAudioElements();
         this.addEventListeners();
     }
+    // <audio src="sounds\ride.wav" data-sound="ride"></audio>
+    // <audio src="sounds\snare.wav" data-sound="snare"></audio>
+    // <audio src="sounds\tink.wav" data-sound="tink"></audio>
+    // <button id="btnClap" class="key-buttons btn btn-primary">Clap</button>
+    //             <button id="btnKick" class="key-buttons btn btn-primary">Kick</button>
+    //             <button id="btnRide" class="key-buttons btn btn-primary">Ride</button>
+    //             <button id="btnSnare" class="key-buttons btn btn-primary">Snare</button>
+    //             <button id="btnTink" class="key-buttons btn btn-primary">Tink</button>
     KeyboardSoundListener.prototype.getAudioElements = function () {
         this.clapSound = document.querySelector('[data-sound="clap"]');
         this.kickSound = document.querySelector('[data-sound="kick"]');
+        this.rideSound = document.querySelector('[data-sound="ride"]');
+        this.snareSound = document.querySelector('[data-sound="snare"]');
+        this.tinkSound = document.querySelector('[data-sound="tink"]');
+        this.btnClap = document.querySelector('#btnClap');
+        this.btnKick = document.querySelector('#btnKick');
+        this.btnRide = document.querySelector('#btnRide');
+        this.btnSnare = document.querySelector('#btnSnare');
+        this.btnTink = document.querySelector('#btnTink');
         this.btnChannel1Play = document.querySelector('#channel1Play');
     };
     KeyboardSoundListener.prototype.addEventListeners = function () {
         var _this = this;
         document.addEventListener('keypress', function (e) { return _this.onKeyDown(e); });
-        this.btnChannel1Play.addEventListener('click', function (e) { return _this.onChannel1Play(e); });
+        this.btnChannel1Play.addEventListener('click', function () { return _this.onChannel1Play(); });
+        this.btnClap.addEventListener('click', function () { return _this.play(_this.clapSound); });
+        this.btnKick.addEventListener('click', function () { return _this.play(_this.kickSound); });
+        this.btnRide.addEventListener('click', function () { return _this.play(_this.rideSound); });
+        this.btnSnare.addEventListener('click', function () { return _this.play(_this.snareSound); });
+        this.btnTink.addEventListener('click', function () { return _this.play(_this.tinkSound); });
     };
     KeyboardSoundListener.prototype.onChannel1Play = function () {
         var _this = this;
@@ -25,15 +46,26 @@ var KeyboardSoundListener = /** @class */ (function () {
         this.channel1.push({ key: e.key, time: e.timeStamp });
         this.playSound(e.key);
     };
+    KeyboardSoundListener.prototype.play = function (element) {
+        element.currentTime = 0;
+        element.play();
+    };
     KeyboardSoundListener.prototype.playSound = function (key) {
         switch (key) {
             case 'a':
-                this.clapSound.currentTime = 0;
-                this.clapSound.play();
+                this.play(this.clapSound);
                 break;
             case 's':
-                this.kickSound.currentTime = 0;
-                this.kickSound.play();
+                this.play(this.kickSound);
+                break;
+            case 'q':
+                this.play(this.rideSound);
+                break;
+            case 'w':
+                this.play(this.snareSound);
+                break;
+            case 'e':
+                this.play(this.tinkSound);
                 break;
         }
     };

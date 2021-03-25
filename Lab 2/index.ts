@@ -1,6 +1,16 @@
 class KeyboardSoundListener {
     clapSound: HTMLAudioElement;
     kickSound: HTMLAudioElement;
+    rideSound: HTMLAudioElement;
+    snareSound: HTMLAudioElement;
+    tinkSound: HTMLAudioElement;
+
+    btnClap: HTMLButtonElement;
+    btnKick: HTMLButtonElement;
+    btnRide: HTMLButtonElement;
+    btnSnare: HTMLButtonElement;
+    btnTink: HTMLButtonElement;
+
     btnChannel1Play: HTMLButtonElement;
     channel1: any[] = [];
 
@@ -9,16 +19,41 @@ class KeyboardSoundListener {
         this.getAudioElements();
         this.addEventListeners();
     }
+    // <audio src="sounds\ride.wav" data-sound="ride"></audio>
+    // <audio src="sounds\snare.wav" data-sound="snare"></audio>
+    // <audio src="sounds\tink.wav" data-sound="tink"></audio>
+
+    // <button id="btnClap" class="key-buttons btn btn-primary">Clap</button>
+    //             <button id="btnKick" class="key-buttons btn btn-primary">Kick</button>
+    //             <button id="btnRide" class="key-buttons btn btn-primary">Ride</button>
+    //             <button id="btnSnare" class="key-buttons btn btn-primary">Snare</button>
+    //             <button id="btnTink" class="key-buttons btn btn-primary">Tink</button>
 
     getAudioElements(): void {
         this.clapSound = document.querySelector('[data-sound="clap"]');
         this.kickSound = document.querySelector('[data-sound="kick"]');
+        this.rideSound = document.querySelector('[data-sound="ride"]');
+        this.snareSound = document.querySelector('[data-sound="snare"]');
+        this.tinkSound = document.querySelector('[data-sound="tink"]');
+
+        this.btnClap = document.querySelector('#btnClap');
+        this.btnKick = document.querySelector('#btnKick');
+        this.btnRide = document.querySelector('#btnRide');
+        this.btnSnare = document.querySelector('#btnSnare');
+        this.btnTink = document.querySelector('#btnTink');
+
         this.btnChannel1Play = document.querySelector('#channel1Play');
     }
 
     addEventListeners(): void {
         document.addEventListener('keypress', (e) => this.onKeyDown(e));
-        this.btnChannel1Play.addEventListener('click', (e) => this.onChannel1Play(e));
+        this.btnChannel1Play.addEventListener('click', () => this.onChannel1Play());
+        
+        this.btnClap.addEventListener('click', () => this.play(this.clapSound));
+        this.btnKick.addEventListener('click', () => this.play(this.kickSound));
+        this.btnRide.addEventListener('click', () => this.play(this.rideSound));
+        this.btnSnare.addEventListener('click', () => this.play(this.snareSound));
+        this.btnTink.addEventListener('click', () => this.play(this.tinkSound));
     }
 
     onChannel1Play(): void {
@@ -31,16 +66,28 @@ class KeyboardSoundListener {
         this.channel1.push({ key: e.key, time: e.timeStamp });
         this.playSound(e.key);
     }
+
+    play(element: HTMLAudioElement): void {
+        element.currentTime = 0;
+        element.play();
+    }
     
     playSound(key: string): void {
         switch(key) {
             case 'a':
-                this.clapSound.currentTime = 0;
-                this.clapSound.play();
+                this.play(this.clapSound);
                 break;
             case 's':
-                this.kickSound.currentTime = 0;
-                this.kickSound.play();
+                this.play(this.kickSound);
+                break;
+            case 'q':
+                this.play(this.rideSound);
+                break;
+            case 'w':
+                this.play(this.snareSound);
+                break;
+            case 'e':
+                this.play(this.tinkSound);
                 break;
         }
     }
