@@ -1,0 +1,84 @@
+$colors: white purple gray;
+
+@mixin flex-layout($isRow, $justifyContent) {
+  display: flex;
+  align-items: center;
+  @if $isRow == yes {
+    flex-direction: row;
+    justify-content: $justifyContent;
+  } @else {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@mixin horizontalPadding($horizontalPadding) {
+  padding-left: $horizontalPadding;
+  padding-right: $horizontalPadding;
+}
+
+@mixin whiteBorder() {
+  border: 1.5px solid white;
+}
+
+@mixin noBorder() {
+  border: none;
+  outline: none;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding-top: 20px;
+  background-color: nth($colors, 2);
+}
+.field {
+  margin: 20px;
+  color: nth($colors, 1);
+  font-size: 1.5vw;
+}
+#btnSearch {
+  background-color: nth($colors, 2);
+  @include whiteBorder();
+  padding: 7.5px;
+  @include horizontalPadding(15px);
+  border-radius: 10px;
+  cursor: pointer;
+}
+#cityInput {
+  padding: 10px;
+  @include noBorder();
+  border-radius: 15px;
+  color: nth($colors, 3);
+}
+#formDiv {
+  @include flex-layout(yes, space-between);
+  // justify-content: space-between;
+  padding: 10px;
+  @include whiteBorder();
+  border-radius: 25px;
+}
+#container {
+  width: 100%;
+  @include flex-layout(yes, center);
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding: 20px;
+}
+.span {
+  color: nth($colors, 1);
+  font-size: 1.6vw;
+  padding: 5px;
+}
+.singleDiv {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  @include flex-layout(no, center);
+  padding: 15px;
+  margin: 10px;
+  @include whiteBorder();
+  border-radius: 15px;
+}

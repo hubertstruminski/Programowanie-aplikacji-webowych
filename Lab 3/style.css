@@ -1,0 +1,79 @@
+/* line 29, ../../styler/style.scss */
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding-top: 20px;
+  background-color: purple;
+}
+
+/* line 36, ../../styler/style.scss */
+.field {
+  margin: 20px;
+  color: white;
+  font-size: 1.5vw;
+}
+
+/* line 41, ../../styler/style.scss */
+#btnSearch {
+  background-color: purple;
+  border: 1.5px solid white;
+  padding: 7.5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* line 49, ../../styler/style.scss */
+#cityInput {
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  color: gray;
+}
+
+/* line 55, ../../styler/style.scss */
+#formDiv {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1.5px solid white;
+  border-radius: 25px;
+}
+
+/* line 62, ../../styler/style.scss */
+#container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding: 20px;
+}
+
+/* line 69, ../../styler/style.scss */
+.span {
+  color: white;
+  font-size: 1.6vw;
+  padding: 5px;
+}
+
+/* line 74, ../../styler/style.scss */
+.singleDiv {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px;
+  margin: 10px;
+  border: 1.5px solid white;
+  border-radius: 15px;
+}
+
+/*# sourceMappingURL=style.css.map */
