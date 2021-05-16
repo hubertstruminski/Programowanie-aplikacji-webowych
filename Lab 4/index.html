@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weather API</title>
+
+        <style>
+            body {
+                display: flex;
+                /* align-items: center; */
+                background-color:  gray;
+                /* flex: 1; */
+            }
+            .field {
+                margin: 5px;
+                color: white;
+                font-size: 1vw;
+                width: 95%;
+                border-radius: 20px;
+                border: none;
+                padding: 1%;
+            }
+            #btnSearch {
+                background-color: purple;
+                border: 1.5px solid white;
+                padding: 7.5px;
+                padding-left: 15px;
+                padding-right: 15px;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+            #cityInput {
+                padding: 10px;
+                border: none;
+                border-radius: 15px;
+                color: gray;
+                outline: none;
+            }
+            #formDiv {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 15px;
+                border: 1.5px solid white;
+                border-radius: 25px;
+                width: 40%;
+            }
+            #container {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-top: 15px;
+                padding: 20px;
+            }
+            .span {
+                color: white;
+                font-size: 1.6vw;
+                padding: 5px;
+            }
+            .singleDiv {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 15px;
+                margin: 10px;
+                border: 1.5px solid white;
+                border-radius: 15px;
+            }
+
+            .inputContainer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                flex: 1;
+            }
+            .label {
+                display: flex;
+                flex: 1;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+                padding-left: 10px;
+            }
+            .row-color-container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            .row-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding-left: 15px;
+            }
+        </style>
+    </head>
+    <body>
+            <div id="formDiv">
+                <div class="inputContainer">
+                    <div class="label">
+                        <label class="field">Title:</label>
+                    </div>
+                    
+                    <input type="text" class="field" id="title" />
+                </div>
+                <div class="inputContainer">
+                    <div class="label">
+                        <label class="field">Content:</label>
+                    </div>
+                    <textarea rows="5" class="field" id="content"></textarea>
+                </div>
+                <div class="row-wrapper">
+                    <div class="row-color-container">
+                        <label class="field">Note color:</label>
+                        <input type="color" id="color" style="border-radius: 20px; padding: 1%; border: none" />
+                    </div>
+                </div>
+                <button class="field" id="btnSearch">Add</button>
+            </div>
+        <div id="container"></div>
+        <script> var exports = {}; </script>
+        <script src="app.js"></script>
+    </body>
+</html>
