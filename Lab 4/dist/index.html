@@ -8,55 +8,55 @@
 
         <style>
             body {
-                display: flex;
-                /* align-items: center; */
-                background-color:  gray;
-                /* flex: 1; */
+                padding: 0;
+                margin: 0;
             }
             .field {
                 margin: 5px;
                 color: white;
-                font-size: 1vw;
                 width: 95%;
                 border-radius: 20px;
                 border: none;
-                padding: 1%;
+                padding: 0.5%;
+                font-size: 16px;
+                outline: none;
             }
-            #btnSearch {
+            .mainContainer {
+                background-color:  gray;
+                padding-top: 20px;
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+            }
+            #btnAdd {
                 background-color: purple;
                 border: 1.5px solid white;
-                padding: 7.5px;
+                padding: 5px;
                 padding-left: 15px;
-                padding-right: 15px;
                 border-radius: 10px;
                 cursor: pointer;
-            }
-            #cityInput {
-                padding: 10px;
-                border: none;
-                border-radius: 15px;
-                color: gray;
-                outline: none;
             }
             #formDiv {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                padding: 15px;
+                padding: 10px;
                 border: 1.5px solid white;
                 border-radius: 25px;
-                width: 40%;
+                width: 20%;
+                margin: 0 auto;
             }
             #container {
-                width: 100%;
+                /* width: 100%; */
                 display: flex;
-                flex-direction: row;
-                align-items: center;
+                flex-direction: column;
+                align-items: flex-start;
                 justify-content: center;
                 flex-wrap: wrap;
                 margin-top: 15px;
                 padding: 20px;
+                background-color: red;
             }
             .span {
                 color: white;
@@ -102,33 +102,73 @@
                 align-items: center;
                 padding-left: 15px;
             }
+            .input {
+                color: black;
+                font-size: 15px;
+                padding: 2.5px;
+                padding-left: 5px;
+                outline: none;
+            }
+            .noteContainer {
+                background-color: green;
+                display: flex;
+                width: 100%;
+                min-height: 50px;
+            }
+            .note {
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                color: white;
+                border-radius: 25px;
+                border: 1.5px solid white;
+                margin: 10px;
+            }
+            .noteSpan {
+                color: white;
+                font-weight: 600;
+                padding: 5px;
+            }
         </style>
     </head>
     <body>
+        <div class="mainContainer">
             <div id="formDiv">
                 <div class="inputContainer">
                     <div class="label">
                         <label class="field">Title:</label>
                     </div>
                     
-                    <input type="text" class="field" id="title" />
+                    <input type="text" class="field input" id="title" />
                 </div>
                 <div class="inputContainer">
                     <div class="label">
                         <label class="field">Content:</label>
                     </div>
-                    <textarea rows="5" class="field" id="content"></textarea>
+                    <textarea rows="5" class="field input" id="content"></textarea>
                 </div>
                 <div class="row-wrapper">
                     <div class="row-color-container">
                         <label class="field">Note color:</label>
-                        <input type="color" id="color" style="border-radius: 20px; padding: 1%; border: none" />
+                        <input type="color" id="color" style="border-radius: 20px; padding: 0.5%; border: none" />
                     </div>
                 </div>
-                <button class="field" id="btnSearch">Add</button>
+                <button class="field" id="btnAdd">Add</button>
             </div>
-        <div id="container"></div>
+            <div id="container">
+                <label class="label">PINNED</label>
+                <div id="pinnedNotes" class="noteContainer">
+
+                </div>
+                <label class="label">OTHERS</label>
+                <div id="otherNotes" class="noteContainer">
+
+                </div>
+            </div>
+        </div>
         <script> var exports = {}; </script>
-        <script src="app.js"></script>
+        <script src="AppNotes.js"></script>
     </body>
 </html>
