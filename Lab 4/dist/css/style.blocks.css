@@ -1,0 +1,126 @@
+body {
+  padding: 0;
+  margin: 0;
+  background-color: gray; }
+
+.field {
+  margin: 5px;
+  color: white;
+  width: 95%;
+  border-radius: 20px;
+  border: none;
+  padding: 0.5%;
+  font-size: 16px;
+  outline: none; }
+
+.mainContainer {
+  background-color: gray;
+  padding-top: 20px;
+  display: flex;
+  flex: 1;
+  flex-direction: column; }
+
+#btnAdd {
+  background-color: purple;
+  border: 1.5px solid white;
+  padding: 5px;
+  padding-left: 15px;
+  border-radius: 10px;
+  cursor: pointer; }
+
+#formDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1.5px solid white;
+  border-radius: 25px;
+  width: 20%;
+  margin: 0 auto; }
+
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding: 20px; }
+
+.span {
+  color: white;
+  font-size: 1.6vw;
+  padding: 5px; }
+
+.singleDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  margin: 10px;
+  border: 1.5px solid white;
+  border-radius: 15px; }
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1; }
+
+.label {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding-left: 10px; }
+
+.row-color-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center; }
+
+.row-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 15px; }
+
+.input {
+  color: black;
+  font-size: 15px;
+  padding: 2.5px;
+  padding-left: 5px;
+  outline: none; }
+
+.noteContainer {
+  display: flex;
+  width: 100%;
+  min-height: 50px;
+  flex-wrap: wrap;
+  padding: 10px; }
+
+.note {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: white;
+  border-radius: 25px;
+  border: 1.5px solid white;
+  margin: 10px; }
+
+.noteSpan {
+  color: white;
+  font-weight: 500;
+  padding: 10px; }
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row; }

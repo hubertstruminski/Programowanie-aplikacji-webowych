@@ -1,0 +1,145 @@
+$border: 5px;
+$padding: 10px;
+$margin: 10px;
+$width: 10%;
+$white: white;
+$gray: gray;
+$border-width: 1.5px;
+$font-size: 15px;
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin center {
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin full-flex {
+  display: flex;
+  flex: 1;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: $gray;
+}
+.field {
+  margin: $margin / 2;
+  color: $white;
+  width: 9.5 * $width;
+  border-radius: 4 * $border;
+  border: none;
+  padding: $width / 20;
+  font-size: $font-size + 1px;
+  outline: none;
+}
+.mainContainer {
+  background-color: $gray;
+  padding-top: 2 * $padding;
+  @include full-flex();
+  flex-direction: column;
+}
+#btnAdd {
+  background-color: purple;
+  border: $border-width solid $white;
+  padding: $padding / 2;
+  padding-left: 1.5 * $padding;
+  border-radius: 2 * $border;
+  cursor: pointer;
+}
+#formDiv {
+  @include flex-column();
+  @include center();
+  padding: $padding;
+  border: $border-width solid $white;
+  border-radius: 5 * $border;
+  width: 2 * $width;
+  margin: 0 auto;
+}
+#container {
+  @include flex-column();
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5 * $margin;
+  padding: 2 * $padding;
+}
+.span {
+  color: $white;
+  font-size: 1.6vw;
+  padding: $padding / 2;
+}
+.singleDiv {
+  @include flex-column();
+  @include center();
+  padding: 1.5 * $padding;
+  margin: $margin;
+  border: $border-width solid $white;
+  border-radius: 3 * $border;
+}
+
+.inputContainer {
+  @include flex-column();
+  @include center();
+  width: 10 * $width;
+  flex: 1;
+}
+.label {
+  @include full-flex();
+  justify-content: flex-start;
+  align-items: center;
+  width: 10 * $width;
+  padding-left: $padding;
+}
+.row-color-container {
+  @include flex-row();
+  align-items: center;
+}
+.row-wrapper {
+  width: 10 * $width;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 1.5 * $padding;
+}
+.input {
+  color: black;
+  font-size: $font-size;
+  padding: $padding / 4;
+  padding-left: $padding / 2;
+  outline: none;
+}
+.noteContainer {
+  display: flex;
+  width: 10 * $width;
+  min-height: 50px;
+  flex-wrap: wrap;
+  padding: $padding;
+}
+.note {
+  padding: $padding;
+  @include flex-column();
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: $white;
+  border-radius: 5 * $border;
+  border: $border-width solid $white;
+  margin: $margin;
+}
+.noteSpan {
+  color: $white;
+  font-weight: 500;
+  padding: $padding;
+}
+.buttonContainer {
+  @include flex-row();
+}

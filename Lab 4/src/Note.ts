@@ -12,7 +12,8 @@ export default class Note {
   }
 
   createNote(data: INote[]) {
-    const newNote = { 
+    const newNote = {
+      id: Date.now().toString(36) + Math.random().toString(36).substring(2), 
       title: this.title.value,
       content: this.content.value,
       color: this.color.value,
@@ -20,5 +21,11 @@ export default class Note {
       createdAt: new Date() 
     };
     data.push(newNote as INote);
+  }
+
+  clearInputs() {
+    this.title.value = "";
+    this.content.value = "";
+    this.color.value = "";
   }
 }

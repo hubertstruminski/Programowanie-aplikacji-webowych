@@ -1,6 +1,14 @@
 import { INote } from './INote';
 import Note from './Note';
 import AppStorage from './AppStorage';
+import { 
+  BLACK,
+  EDIT_BUTTON_BACKGROUND, 
+  EDIT_BUTTON_TEXT, 
+  REMOVE_BUTTON_BACKGROUND, 
+  WHITE 
+} from './Colors';
+import { IButton } from './IButton';
 
 export class App {
   note: Note;
@@ -37,6 +45,7 @@ export class App {
   addEventListenerToButton(data: INote[]) {
     this.btnAdd.addEventListener('click', async () => {
       this.note.createNote(data);
+      this.note.clearInputs();
       this.appStorage.saveDataToLocalStorage(data);
       this.renderData(data);
     });
@@ -50,8 +59,22 @@ export class App {
     return span;
   }
 
+  renderButton(container: HTMLDivElement, item: IButton, callback: Function) {
+    const { backgroundColor, color, text } = item;
+    const button = document.createElement('button');
+
+    button.style.border = "1.5px solid " + WHITE;
+    button.style.margin = "5px";
+    button.style.backgroundColor = backgroundColor;
+    button.style.color = color;
+    button.innerHTML = text;
+
+    button.addEventListener('click', () => callback());
+    container.appendChild(button);
+  }
+
   renderNote(container: HTMLDivElement, item: INote) {
-    const { title, content, color, createdAt } = item;
+    const { title, content, color, createdAt, id, isPinned } = item;
 
     const div = document.createElement('div');
     div.className = "note";
@@ -65,6 +88,31 @@ export class App {
     div.appendChild(contentSpan);
     div.appendChild(createdAtSpan);
 
+    const buttonContainer = document.createElement('div') as HTMLDivElement;
+    buttonContainer.className = "buttonContainer"
+
+    const editButton = { 
+      text: 'Edit', 
+      backgroundColor: EDIT_BUTTON_BACKGROUND, 
+      color: EDIT_BUTTON_TEXT 
+    } as IButton;
+    this.renderButton(buttonContainer, editButton, () => this.editNote(id));
+
+    const deleteButton = { 
+      text: 'Delete', 
+      backgroundColor: REMOVE_BUTTON_BACKGROUND, 
+      color: WHITE 
+    } as IButton;
+    this.renderButton(buttonContainer, deleteButton, () => this.deleteNote(id));
+
+    const pushPinButton = { 
+      text: isPinned ? 'Push off pin' : 'Push pin', 
+      backgroundColor: WHITE, 
+      color: BLACK
+    } as IButton;
+    this.renderButton(buttonContainer, pushPinButton, (button: HTMLButtonElement) => this.pushPinNote(id));
+
+    div.appendChild(buttonContainer);
     container.appendChild(div);
   }
 
@@ -81,6 +129,59 @@ export class App {
         this.renderNote(this.otherNotes, item);
       }
     });
+  }
+
+  pushPinNote(id: string) {
+    const data = this.appStorage.readDataFromLocalStorage() as INote[];
+
+    const foundItem = data.filter((item: INote) => item.id === id);
+    const index = data.findIndex((item: INote) => item.id === id);
+    
+    if(foundItem) {
+      let { id, content, title, color, createdAt, isPinned } = foundItem[0] as INote;
+
+      const newObject = {
+        isPinned: isPinned ? false : true,
+        id,
+        content,
+        title,
+        color,
+        createdAt
+      };
+
+      data[index] = newObject;
+      this.appStorage.data = data;
+      
+      this.appStorage.saveDataToLocalStorage(data);
+      this.renderData(data);
+    }
+  }
+
+  deleteNote(id: string) {
+    const data = this.appStorage.readDataFromLocalStorage() as INote[];
+
+    const newData = data.filter((item: INote) => item.id !== id);
+    this.appStorage.data = newData;
+
+    this.appStorage.saveDataToLocalStorage(newData);
+    this.renderData(newData);
+  }
+
+  editNote(id: string) {
+    const data = this.appStorage.readDataFromLocalStorage() as INote[];
+
+    const foundItem = data.filter((item: INote) => item.id === id);
+    const newData = data.filter((item: INote) => item.id !== id);
+
+    if(foundItem) {
+      let { content, title, color } = foundItem[0] as INote;
+
+      this.note.title.value = title;
+      this.note.content.value = content;
+      this.note.color.value = color;
+
+      this.appStorage.data = newData;
+    }
   }
 }
 
