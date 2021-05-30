@@ -2,6 +2,7 @@ import AppStorage from './AppStorage';
 import firebase from 'firebase';
 import { firebaseConfig } from './config';
 import { INote } from './INote';
+import { IFirebaseGet } from './IFirebaseGet';
 
 export default class AppFirestoreStorage extends AppStorage {
   firebaseApp: firebase.app.App;
@@ -19,17 +20,10 @@ export default class AppFirestoreStorage extends AppStorage {
       this.firebaseApp = firebase.app();
     }
     this.database = this.firebaseApp.firestore();
-    
-    // const note = { 
-    //   title: 'Second note',
-    //   content: 'Second note content from code',
-    // } as INote;
-
-    // this.addNote(note);
   }
 
   async addNote(note: INote) {
-    await this.database.collection('notes').add(note);
+    await this.database.collection('notes').doc(note.id).set(note);
   }
 
   async deleteNote(id: string) {
@@ -48,15 +42,15 @@ export default class AppFirestoreStorage extends AppStorage {
     .then(response => { return { data: response.data(), id: response.id }});
   }
 
-  async getNotes() {
-    this.database
+  async getNotes(): Promise<IFirebaseGet> {
+    return this.database
     .collection('notes')
     .get()
     .then(response => { 
       return { 
         size: response.size, 
-        docs: response.docs.map(item => item.data())
-      }
+        items: response.docs.map(item => item.data())
+      } as IFirebaseGet;
     });
   }
 }

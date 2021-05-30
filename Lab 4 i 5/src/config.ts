@@ -7,7 +7,7 @@ export const firebaseConfig = {
   appId: "1:508961831841:web:d19348b86f2ad8c69aa9e0"
 };
 
-enum StorageType {
+export enum StorageType {
   LOCALSTORAGE, FILESTORE,
 }
 

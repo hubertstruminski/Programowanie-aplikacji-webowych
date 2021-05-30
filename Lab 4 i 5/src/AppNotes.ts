@@ -10,6 +10,8 @@ import {
 } from './Colors';
 import { IButton } from './IButton';
 import AppFirestoreStorage from './AppFirestoreStorage ';
+import { StorageType, StorageTypeApp } from './config';
+import { IFirebaseGet, ITimestamp, isITimestamp } from './IFirebaseGet';
 
 export class App {
   note: Note;
@@ -33,12 +35,36 @@ export class App {
     this.appStorage.data= [];
     this.addEventListenerToButton(this.appStorage.data);
 
-    const data = this.appStorage.readDataFromLocalStorage() as INote[];
-    this.appStorage.data = data;
+    
+    this.getContent().then(data => {
+      this.appStorage.data = data;
 
-    if(this.appStorage.data) {
-      this.renderData(this.appStorage.data);
-    }  
+      if(this.appStorage.data) {
+        this.renderData(this.appStorage.data);
+      } 
+    });
+  }
+
+  async getContent() {
+    let data = null;
+    //@ts-ignore
+    if(StorageTypeApp === StorageType.FILESTORE) {
+      const { items } = await this.appFirestoreStorage.getNotes();
+      data = items.map((item: INote) => {
+        let date = null;
+        if(isITimestamp(item.createdAt)) {
+          date = item.createdAt as ITimestamp;
+          date = new Date(date.seconds * 1000);
+        } else {
+          date = new Date();
+        }
+        return  {...item, createdAt: date } as INote;
+      });
+      console.log(data);
+    } else {
+      data = this.appStorage.readDataFromLocalStorage() as INote[];
+    }
+    return data;
   }
 
   getLayoutAccess() {
@@ -49,10 +75,15 @@ export class App {
   
   addEventListenerToButton(data: INote[]) {
     this.btnAdd.addEventListener('click', async () => {
-      this.note.createNote(data);
+      this.note.getInputsData();
+      this.note.createNote(this.appStorage.data, this.appFirestoreStorage);
       this.note.clearInputs();
-      this.appStorage.saveDataToLocalStorage(data);
-      this.renderData(data);
+
+      //@ts-ignore
+      if(StorageTypeApp !== StorageType.FILESTORE) {
+        this.appStorage.saveDataToLocalStorage(this.appStorage.data);
+      }
+      this.renderData(this.appStorage.data);
     });
   }
   
@@ -136,8 +167,8 @@ export class App {
     });
   }
 
-  pushPinNote(id: string) {
-    const data = this.appStorage.readDataFromLocalStorage() as INote[];
+  async pushPinNote(id: string) {
+    const data = await this.getContent();
 
     const foundItem = data.filter((item: INote) => item.id === id);
     const index = data.findIndex((item: INote) => item.id === id);
@@ -157,36 +188,55 @@ export class App {
       data[index] = newObject;
       this.appStorage.data = data;
       
-      this.appStorage.saveDataToLocalStorage(data);
+      //@ts-ignore
+      if(StorageTypeApp !== StorageType.FILESTORE) {
+        this.appStorage.saveDataToLocalStorage(data);
+      } else {
+        this.appFirestoreStorage.updateNote(newObject.id, newObject);
+      }
       this.renderData(data);
     }
   }
 
-  deleteNote(id: string) {
-    const data = this.appStorage.readDataFromLocalStorage() as INote[];
+  async deleteNote(id: string) {
+    let newData = null;
 
-    const newData = data.filter((item: INote) => item.id !== id);
+    //@ts-ignore
+    if(StorageTypeApp === StorageType.FILESTORE) {
+      const items = await this.getContent();
+      newData = items.filter((item: INote) => item.id !== id);
+
+      this.appFirestoreStorage.deleteNote(id);
+    } else {
+      const data = this.appStorage.readDataFromLocalStorage() as INote[];
+      newData = data.filter((item: INote) => item.id !== id);
+
+      this.appStorage.saveDataToLocalStorage(newData);
+    }
     this.appStorage.data = newData;
-
-    this.appStorage.saveDataToLocalStorage(newData);
     this.renderData(newData);
   }
 
-  editNote(id: string) {
-    const data = this.appStorage.readDataFromLocalStorage() as INote[];
+  async editNote(id: string) {
+    const data = await this.getContent();
 
     const foundItem = data.filter((item: INote) => item.id === id);
     const newData = data.filter((item: INote) => item.id !== id);
 
     if(foundItem) {
-      let { content, title, color } = foundItem[0] as INote;
+      let { content, title, color, id } = foundItem[0] as INote;
 
       this.note.title.value = title;
       this.note.content.value = content;
       this.note.color.value = color;
+      this.note.id.value = id;
 
       this.appStorage.data = newData;
-      this.appStorage.saveDataToLocalStorage(newData);
+
+      //@ts-ignore
+      if(StorageTypeApp !== StorageType.FILESTORE) {
+        this.appStorage.saveDataToLocalStorage(newData);
+      }
       this.renderData(newData);
     }
   }
