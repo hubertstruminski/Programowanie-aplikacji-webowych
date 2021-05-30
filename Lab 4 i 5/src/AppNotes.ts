@@ -9,10 +9,12 @@ import {
   WHITE 
 } from './Colors';
 import { IButton } from './IButton';
+import AppFirestoreStorage from './AppFirestoreStorage ';
 
 export class App {
   note: Note;
   appStorage: AppStorage;
+  appFirestoreStorage: AppFirestoreStorage;
 
   btnAdd: HTMLButtonElement;
   pinnedNotes: HTMLDivElement;
@@ -20,7 +22,10 @@ export class App {
 
   constructor() {
     this.appStorage = new AppStorage();
+    this.appFirestoreStorage = new AppFirestoreStorage();
     this.note = new Note();
+
+    this.appFirestoreStorage.init();
 
     this.getLayoutAccess();
     this.note.getInputsData();
@@ -181,6 +186,8 @@ export class App {
       this.note.color.value = color;
 
       this.appStorage.data = newData;
+      this.appStorage.saveDataToLocalStorage(newData);
+      this.renderData(newData);
     }
   }
 }
