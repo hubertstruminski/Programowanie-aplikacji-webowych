@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1623598024529" clover="3.2.0">
+  <project timestamp="1623598024529" name="All files">
+    <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1" elements="10" coveredelements="10" complexity="0" loc="5" ncloc="5" packages="1" files="1" classes="1"/>
+    <file name="index.ts" path="C:\Users\huber\OneDrive\Pulpit\4 semestr\Programowanie aplikacji webowych\Laboratorium\Lab 4, 5 i 6\index.ts">
+      <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+      <line num="3" count="27" type="cond" truecount="2" falsecount="0"/>
+      <line num="4" count="6" type="stmt"/>
+      <line num="6" count="21" type="cond" truecount="2" falsecount="0"/>
+      <line num="7" count="9" type="stmt"/>
+      <line num="9" count="12" type="stmt"/>
+    </file>
+  </project>
+</coverage>
