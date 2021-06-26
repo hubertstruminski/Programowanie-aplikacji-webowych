@@ -113,7 +113,7 @@ export class App {
     const { title, content, color, createdAt, id, isPinned } = item;
 
     const div = document.createElement('div');
-    div.className = "note";
+    div.className = "note";                                                                                                 
     div.style.backgroundColor = color;
 
     const titleSpan = this.renderSpan("Title", title);

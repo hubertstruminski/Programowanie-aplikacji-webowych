@@ -17,7 +17,7 @@ export default class Note {
 
   createNote(data: INote[], fileStore: AppFirestoreStorage) {
     const newNote = {
-      id: this.id.value ? this.id.value : Date.now().toString(36) + Math.random().toString(36).substring(2), 
+      id: this.id.value ? this.id.value : this.createUUID(), 
       title: this.title.value,
       content: this.content.value,
       color: this.color.value,
@@ -43,5 +43,9 @@ export default class Note {
     this.content.value = "";
     this.color.value = "#000000";
     this.id.value = null;
+  }
+
+  createUUID() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2)
   }
 }
