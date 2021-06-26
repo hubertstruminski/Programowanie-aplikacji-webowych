@@ -10,7 +10,7 @@ import puppeteer from 'puppeteer';
     console.log("got it");
   })
  
-  await page.waitFor(1500);
+  await page.waitFor(2500);
   await page.type('#title', 'Pierwsza notatka');
   await page.type('.inputContainer #content', 'Treść notatki');
   await page.$eval('.row-color-container #color', el => el.value = '#59a86e');
